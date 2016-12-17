@@ -48,7 +48,7 @@ function MenuComponent({ text = 'undefined', href = '#', menu = [], style= {} })
   return <div
     style={{...defaultMenuComponentStyle, ...style}}
   /* end of start div  */>
-    {menu.map(({ text, href, menu, onClick, ...item}, itemIdx) => <ItemComponent
+    {menu.map(({ text, component, href, menu, onClick, ...item}, itemIdx) => <ItemComponent
       key={itemIdx}
       text={text}
       href={href}
@@ -58,14 +58,14 @@ function MenuComponent({ text = 'undefined', href = '#', menu = [], style= {} })
   </div>
 }
 
-function ItemComponent({ text, href, menu, onClick }) {
+function ItemComponent({ text, component, href, menu, onClick }) {
   return <div
     style={defaultItemComponentStyle}
     onMouseEnter={menu && handleOnMouse}
     onMouseLeave={menu && handleOnMouse}
     onClick={onClick}
   /* end of start div */>
-    {text}
+    {component ? component() : <span>{text}</span>}
     {menu && <MenuComponent menu={menu} />}
   </div>
 }
