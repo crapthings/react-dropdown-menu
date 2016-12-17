@@ -37,12 +37,11 @@ let menu = _.times(10, n => ({
 }))
 
 menu = [
-  {
-    type: 'divider',
-    text: 'basic info',
-  },
+  // {
+  //   type: 'divider',
+  //   text: 'basic info',
+  // },
   ...menu,
-
 ]
 
 Meteor.startup(init)

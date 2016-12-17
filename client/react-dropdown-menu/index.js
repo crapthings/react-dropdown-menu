@@ -75,6 +75,8 @@ function handleOnMouse(evt) {
   const pageX = evt.pageX
   const pageY = evt.pageY
   const currentTarget = evt.currentTarget
+  const children = Array.prototype.slice.call(currentTarget.parentNode.children)
+  const currentIdx = children.indexOf(currentTarget) + 1
   const isRootEl = currentTarget.className === defaultRootComponentProps.className
   const clientRect = currentTarget.getBoundingClientRect()
   const menu = currentTarget.lastElementChild
@@ -101,9 +103,7 @@ function handleOnMouse(evt) {
     if (viewportHeight / 2 > pageY)
       menu.style.top = currentTarget.offsetTop + 'px'
     else
-      menu.style.bottom = (currentTarget.offsetTop + clientRect.height) + 'px'
-
-    console.dir(currentTarget)
+      menu.style.bottom = (children.length - currentIdx) * clientRect.height + 'px'
 
   }
 
