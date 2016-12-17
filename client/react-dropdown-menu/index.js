@@ -107,9 +107,10 @@ function handleOnMouse(evt) {
 
   }
 
-  menu.style.display === 'none' ?
-  menu.style.display = 'block' :
-  menu.style.display = 'none'
+  if (evt.type === 'mouseenter')
+    menu.style.display = 'block'
+  else
+    menu.style.display = 'none'
 
   // dev
   menu.style.backgroundColor = randomColor({
