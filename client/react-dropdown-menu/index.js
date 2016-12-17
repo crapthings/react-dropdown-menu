@@ -12,6 +12,7 @@ const defaultRootComponentStyle = {
   position: 'relative',
   padding: 0,
   backgroundColor: 'red',
+  cursor: 'pointer',
 }
 
 const defaultMenuComponentStyle = {
@@ -31,14 +32,14 @@ const defaultItemComponentStyle = {
   cursor: 'pointer',
 }
 
-function RootComponent({ text = 'undefined', href = '#', menu = [] }) {
+function RootComponent({ text, component, menu }) {
   return <div
     { ...defaultRootComponentProps }
     style={defaultRootComponentStyle}
     onMouseEnter={menu && handleOnMouse}
     onMouseLeave={menu && handleOnMouse}
   /* end of start div */>
-    <span>{text}</span>
+    {component ? component() : <span>{text}</span>}
     {menu && <MenuComponent menu={menu} />}
   </div>
 }
@@ -47,20 +48,22 @@ function MenuComponent({ text = 'undefined', href = '#', menu = [], style= {} })
   return <div
     style={{...defaultMenuComponentStyle, ...style}}
   /* end of start div  */>
-    {menu.map(({ text, href, menu, ...item}, itemIdx) => <ItemComponent
+    {menu.map(({ text, href, menu, onClick, ...item}, itemIdx) => <ItemComponent
       key={itemIdx}
       text={text}
       href={href}
       menu={menu}
+      onClick={onClick}
     />)}
   </div>
 }
 
-function ItemComponent({ text, href, menu }) {
+function ItemComponent({ text, href, menu, onClick }) {
   return <div
     style={defaultItemComponentStyle}
     onMouseEnter={menu && handleOnMouse}
     onMouseLeave={menu && handleOnMouse}
+    onClick={onClick}
   /* end of start div */>
     {text}
     {menu && <MenuComponent menu={menu} />}
@@ -89,7 +92,7 @@ function handleOnMouse(evt) {
       menu.style.left = -(defaultRootComponentProps.width - clientRect.width) + 'px'
 
     if (viewportHeight / 2 > pageY)
-      menu.style.top = currentTarget.offsetTop + clientRect.height + 'px'
+      menu.style.top = clientRect.height + 'px'
     else
       menu.style.bottom = (currentTarget.offsetTop + clientRect.height) + 'px'
 
